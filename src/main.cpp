@@ -1,17 +1,26 @@
-#include <Arduino.h>
+#include <air001xx_ll_gpio.h>
+#include <air001xx_ll_utils.h>
+#include <air001xx_ll_bus.h>
 
-void setup()
+extern "C"
 {
-    // put your setup code here, to run once:
-    pinMode(PB1, OUTPUT);
+    extern void SystemClock_Config(void);
 }
 
-void loop()
+int main()
 {
-    // put your main code here, to run repeatedly:
-    digitalWrite(PB1, HIGH);
-    delay(1000);
-    digitalWrite(PB1, LOW);
-    delay(1000);
-    
+    SystemClock_Config();
+
+    LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
+    LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOF);
+    LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);
+
+    LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_0, LL_GPIO_MODE_OUTPUT);
+    LL_GPIO_SetPinSpeed(GPIOB, LL_GPIO_PIN_0, LL_GPIO_SPEED_FREQ_HIGH);
+
+    while (1)
+    {
+        LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_0);
+        LL_mDelay(233);
+    }
 }

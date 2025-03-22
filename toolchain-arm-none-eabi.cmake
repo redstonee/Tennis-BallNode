@@ -61,7 +61,7 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 #
 # https://gcc.gnu.org/onlinedocs/gcc-6.1.0/gcc/ARM-Options.html
 # I build for Cortex-M0, so I use -mtune=cortex-m0 -mcpu=cortex-m0
-set(OBJECT_GEN_FLAGS "-O0 -mthumb -Wall -ffunction-sections -fdata-sections -fomit-frame-pointer -mabi=aapcs -mtune=${CPU_TYPE} -mcpu=${CPU_TYPE}")
+set(OBJECT_GEN_FLAGS "-O0 -mthumb -Wall -fno-exceptions -ffunction-sections -fdata-sections -fomit-frame-pointer -mabi=aapcs -mtune=${CPU_TYPE} -mcpu=${CPU_TYPE}")
 
 set(CMAKE_C_FLAGS   "${OBJECT_GEN_FLAGS}" CACHE INTERNAL "C Compiler options")
 set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS}" CACHE INTERNAL "C++ Compiler options")
