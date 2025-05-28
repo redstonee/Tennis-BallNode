@@ -1,0 +1,23 @@
+#pragma once
+
+#include <air001xx_ll_gpio.h>
+
+#define LED_PORT GPIOA
+#define LED_PIN LL_GPIO_PIN_2
+
+#define VSENS_PORT GPIOA
+#define VSENS_PIN LL_GPIO_PIN_4
+#define VSENS_ADC_CHANNEL ADC_CHANNEL_4
+#define VSENS_ADC_CHANNEL_NUM 4
+
+#define BALL_OUT_PORT GPIOA
+#define BALL_OUT_PIN LL_GPIO_PIN_0
+
+#define APDS_INT_PORT GPIOA
+#define APDS_INT_PIN LL_GPIO_PIN_5
+#define APDS_INT_EXTI_LINE EXTI_LINE_5
+#define APDS_INT_EXTI_IRQn EXTI5_IRQn
+#define I2C_PORT GPIOF
+#define I2C_SDA_PIN LL_GPIO_PIN_0
+#define I2C_SCL_PIN LL_GPIO_PIN_1
+
