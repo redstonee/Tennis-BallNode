@@ -7,7 +7,7 @@
         {
             "name": "Cortex Debug",
             "cwd": "${workspaceFolder}",
-            "executable": "./build/NooBot-PowerModule.elf",
+            "executable": "./build/Tennis-BallNode.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "pyocd",

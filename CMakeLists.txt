@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_LIST_DIR}/toolchain-arm-none-eabi.cmake)
 
-project(NooBot-PowerModule)
+project(Tennis-BallNode)
 
 enable_language(ASM)
 enable_language(C)
@@ -64,7 +64,7 @@ add_executable(${OUTPUT_EXE_NAME}
     ${USER_SRC_DIR}/clock.c
     ${USER_SRC_DIR}/it.c
     ${USER_SRC_DIR}/msp.c
-    ${USER_SRC_DIR}/APDS9960.cpp
+    ${USER_SRC_DIR}/APDS9930.cpp
 )
 
 

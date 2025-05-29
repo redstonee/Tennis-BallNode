@@ -18,6 +18,8 @@
 #define APDS_INT_PIN GPIO_PIN_5
 #define APDS_INT_EXTI_LINE EXTI_LINE_5
 #define APDS_INT_EXTI_IRQn EXTI4_15_IRQn
+#define PROX_INT_HIGH 600 // Proximity level for interrupt
+#define PROX_INT_LOW 0    // No far interrupt
 
 #define I2C_PORT GPIOF
 #define I2C_SDA_PIN GPIO_PIN_0

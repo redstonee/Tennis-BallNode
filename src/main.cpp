@@ -1,5 +1,5 @@
 #include <air001xx_hal.h>
-#include "APDS9960.h"
+#include "APDS9930.h"
 
 #include "config.h"
 
@@ -8,6 +8,7 @@ extern "C"
     extern void SystemClock_Config(void);
 }
 
+volatile bool sensorInterruptFlag = false;
 int main()
 {
     SystemClock_Config();
@@ -33,11 +34,66 @@ int main()
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     HAL_GPIO_Init(BALL_OUT_PORT, &GPIO_InitStruct);
 
-    // SparkFun_APDS9960 sensor;
-    // sensor.init(I2C_PORT, I2C_SDA_PIN, I2C_SCL_PIN, I2C_AF);
+    GPIO_InitStruct.Pin = APDS_INT_PIN;
+    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+    HAL_GPIO_Init(APDS_INT_PORT, &GPIO_InitStruct);
+    HAL_NVIC_SetPriority(APDS_INT_EXTI_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(APDS_INT_EXTI_IRQn);
+
+    APDS9930 sensor;
+    auto sensorOK = sensor.init(I2C_PORT, I2C_SDA_PIN, I2C_SCL_PIN, I2C_AF);
+    // Adjust the Proximity sensor gain
+    sensorOK = sensor.setProximityGain(PGAIN_2X);
+    // Set proximity interrupt thresholds
+    sensorOK = sensor.setProximityIntLowThreshold(PROX_INT_LOW);
+    sensorOK = sensor.setProximityIntHighThreshold(PROX_INT_HIGH);
+    // Start running the APDS-9930 proximity sensor (interrupts)
+    sensorOK = sensor.enableProximitySensor(true);
+    if (!sensorOK)
+    {
+        // Initialization failed
+        while (1)
+        {
+            HAL_GPIO_TogglePin(LED_PORT, LED_PIN);
+            HAL_Delay(100);
+        }
+    }
+
+    uint32_t lastBlinkTime = HAL_GetTick();
     while (1)
     {
-        HAL_GPIO_TogglePin(LED_PORT, LED_PIN);
-        HAL_Delay(100);
+        if (sensorInterruptFlag)
+        {
+            HAL_GPIO_WritePin(BALL_OUT_PORT, BALL_OUT_PIN, GPIO_PIN_SET);
+            HAL_Delay(20);
+            HAL_GPIO_WritePin(BALL_OUT_PORT, BALL_OUT_PIN, GPIO_PIN_RESET);
+
+            HAL_GPIO_WritePin(LED_PORT, LED_PIN, GPIO_PIN_SET);
+
+            uint16_t proximityValue;
+            do
+            {
+                sensor.readProximity(proximityValue);
+                HAL_Delay(10);
+            } while (proximityValue > PROX_INT_HIGH);
+            HAL_GPIO_WritePin(LED_PORT, LED_PIN, GPIO_PIN_RESET);
+
+            sensor.clearProximityInt();
+            sensorInterruptFlag = false;
+        }
+
+        if (HAL_GetTick() - lastBlinkTime > 2000)
+        {
+            lastBlinkTime = HAL_GetTick();
+            HAL_GPIO_WritePin(LED_PORT, LED_PIN, GPIO_PIN_SET);
+            HAL_Delay(100);
+            HAL_GPIO_WritePin(LED_PORT, LED_PIN, GPIO_PIN_RESET);
+        }
     }
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t pin)
+{
+    UNUSED(pin);
+    sensorInterruptFlag = true;
 }
