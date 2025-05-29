@@ -28,6 +28,7 @@ add_compile_definitions(
 
 set(HAL_DRIVER_SRC
     ${HAL_DRIVER_DIR}/Src/air001xx_hal.c
+    ${HAL_DRIVER_DIR}/Src/air001xx_hal_adc.c
     ${HAL_DRIVER_DIR}/Src/air001xx_hal_cortex.c
     ${HAL_DRIVER_DIR}/Src/air001xx_hal_dma.c
     ${HAL_DRIVER_DIR}/Src/air001xx_hal_exti.c
@@ -66,6 +67,7 @@ add_executable(${OUTPUT_EXE_NAME}
     ${USER_SRC_DIR}/it.c
     ${USER_SRC_DIR}/msp.c
     ${USER_SRC_DIR}/APDS9930.cpp
+    ${USER_SRC_DIR}/BattMon.cpp
 )
 
 

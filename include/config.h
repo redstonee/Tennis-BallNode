@@ -9,16 +9,16 @@
 #define VSENS_PORT GPIOA
 #define VSENS_PIN GPIO_PIN_4
 #define VSENS_ADC_CHANNEL ADC_CHANNEL_4
-#define VSENS_ADC_CHANNEL_NUM 4
+#define VBAT_DIVIDER 1.454 // Voltage divider resistor
+#define VBAT_LOW_THRESHOLD 3.5
 
 #define BALL_OUT_PORT GPIOA
 #define BALL_OUT_PIN GPIO_PIN_0
 
 #define APDS_INT_PORT GPIOA
 #define APDS_INT_PIN GPIO_PIN_5
-#define APDS_INT_EXTI_LINE EXTI_LINE_5
 #define APDS_INT_EXTI_IRQn EXTI4_15_IRQn
-#define PROX_INT_HIGH 600 // Proximity level for interrupt
+#define PROX_INT_HIGH 400 // Proximity level for interrupt
 #define PROX_INT_LOW 0    // No far interrupt
 
 #define I2C_PORT GPIOF

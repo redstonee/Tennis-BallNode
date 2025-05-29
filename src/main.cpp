@@ -1,5 +1,6 @@
 #include <air001xx_hal.h>
 #include "APDS9930.h"
+#include "BattMon.h"
 
 #include "config.h"
 
@@ -36,10 +37,6 @@ int main()
     };
     HAL_GPIO_Init(LED_PORT, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = VSENS_PIN;
-    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-    HAL_GPIO_Init(VSENS_PORT, &GPIO_InitStruct);
-
     GPIO_InitStruct.Pin = BALL_OUT_PIN;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     HAL_GPIO_Init(BALL_OUT_PORT, &GPIO_InitStruct);
@@ -60,9 +57,15 @@ int main()
     if (!sensorOK)
         onError();
 
-    uint32_t lastBlinkTime = HAL_GetTick();
+    if (!BattMon::init())
+        onError();
+
     while (1)
     {
+        // Sleep forever if the battery voltage is low
+        // if (BattMon::readVoltage() < VBAT_LOW_THRESHOLD)
+        //     __disable_irq();
+
         HAL_SuspendTick();
         HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON, PWR_STOPENTRY_WFI);
         HAL_ResumeTick();

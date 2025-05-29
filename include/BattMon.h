@@ -1,7 +1,8 @@
+#pragma once
 
 namespace BattMon
 {
-    void begin()
-    {
-    }
+    bool init();
+
+    float readVoltage();
 }
