@@ -74,7 +74,6 @@
 #define APDS9930_PIEN 0b00100000
 #define APDS9930_SAI 0b01000000
 
-
 /* Interrupt clear values */
 #define CLEAR_PROX_INT 0xE5
 #define CLEAR_ALS_INT 0xE6
@@ -1247,7 +1246,7 @@ bool APDS9930::wireWriteByte(uint8_t val)
  */
 bool APDS9930::wireWriteDataByte(uint8_t reg, uint8_t val)
 {
-    return (HAL_I2C_Mem_Write(&i2cHandle, APDS9930_I2C_ADDR, reg,
+    return (HAL_I2C_Mem_Write(&i2cHandle, APDS9930_I2C_ADDR, reg | AUTO_INCREMENT,
                               I2C_MEMADD_SIZE_8BIT, &val, 1, 1000) == HAL_OK);
 }
 
@@ -1264,7 +1263,7 @@ bool APDS9930::wireWriteDataBlock(uint8_t reg,
                                   unsigned int len)
 {
     // Unused
-    return (HAL_I2C_Mem_Write(&i2cHandle, APDS9930_I2C_ADDR, reg,
+    return (HAL_I2C_Mem_Write(&i2cHandle, APDS9930_I2C_ADDR, reg | AUTO_INCREMENT,
                               I2C_MEMADD_SIZE_8BIT, val, len, 1000) == HAL_OK);
 }
 
@@ -1277,7 +1276,7 @@ bool APDS9930::wireWriteDataBlock(uint8_t reg,
  */
 bool APDS9930::wireReadDataByte(uint8_t reg, uint8_t &val)
 {
-    return (HAL_I2C_Mem_Read(&i2cHandle, APDS9930_I2C_ADDR, reg,
+    return (HAL_I2C_Mem_Read(&i2cHandle, APDS9930_I2C_ADDR, reg | AUTO_INCREMENT,
                              I2C_MEMADD_SIZE_8BIT, &val, 1, 1000) == HAL_OK);
 }
 
@@ -1293,7 +1292,7 @@ int APDS9930::wireReadDataBlock(uint8_t reg,
                                 uint8_t *val,
                                 unsigned int len)
 {
-    if (HAL_I2C_Mem_Read(&i2cHandle, APDS9930_I2C_ADDR, reg,
+    if (HAL_I2C_Mem_Read(&i2cHandle, APDS9930_I2C_ADDR, reg | AUTO_INCREMENT,
                          I2C_MEMADD_SIZE_8BIT, val, len, 1000) == HAL_OK)
         return -1;
 

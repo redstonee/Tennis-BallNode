@@ -1,0 +1,7 @@
+
+namespace BattMon
+{
+    void begin()
+    {
+    }
+}

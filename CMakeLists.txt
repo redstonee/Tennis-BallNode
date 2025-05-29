@@ -35,6 +35,7 @@ set(HAL_DRIVER_SRC
     ${HAL_DRIVER_DIR}/Src/air001xx_hal_rcc.c
     ${HAL_DRIVER_DIR}/Src/air001xx_hal_tim.c
     ${HAL_DRIVER_DIR}/Src/air001xx_hal_i2c.c
+    ${HAL_DRIVER_DIR}/Src/air001xx_hal_pwr.c
 )
 
 
