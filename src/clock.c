@@ -22,7 +22,4 @@ void SystemClock_Config(void)
         ;
     LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
     LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
-
-    LL_Init1msTick(8000000);
-    LL_SetSystemCoreClock(8000000);
 }
