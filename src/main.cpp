@@ -63,8 +63,16 @@ int main()
     while (1)
     {
         // Sleep forever if the battery voltage is low
-        // if (BattMon::readVoltage() < VBAT_LOW_THRESHOLD)
-        //     __disable_irq();
+        if (BattMon::readVoltage() < VBAT_LOW_THRESHOLD)
+        {
+            sensor.disablePower();
+            __HAL_RCC_ADC_CLK_DISABLE();
+            __HAL_RCC_I2C_CLK_DISABLE();
+            __HAL_RCC_GPIOA_CLK_DISABLE();
+            __HAL_RCC_GPIOB_CLK_DISABLE();
+            __HAL_RCC_GPIOF_CLK_DISABLE();
+            __disable_irq();
+        }
 
         HAL_SuspendTick();
         HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON, PWR_STOPENTRY_WFI);

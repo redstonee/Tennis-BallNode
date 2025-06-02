@@ -49,6 +49,8 @@ namespace BattMon
         };
         if (HAL_ADC_ConfigChannel(&adcHandle, &chConfig) != HAL_OK)
             return false; // Channel configuration failed
+
+        return true;
     }
 
     float readVoltage()
